@@ -1,0 +1,24 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+data = pd.read_csv('BTC-USD.csv', date_parser = True)
+data.head(10)
+data_training = data[data['Date']< '2020-01-01'].copy()
+data_training
+data_test = data[data['Date']> '2020-01-01'].copy()
+data_test
+training_data = data_training.drop(['Date', 'Adj Close'], axis = 1)
+training_data.head()
+MinMaxScaler is used to normalize the data
+scaler = MinMaxScaler()
+training_data = scaler.fit_transform(training_data)
+training_data
+X_train = [] 
+Y_train = []
+training_data.shape[0]
+for i in range(60, training_data.shape[0]):
+  X_train.append(training_data[i-60:i])
+  Y_train.append(training_data[i,0])
+X_train, Y_train = np.array(X_train), np.array(Y_train)
+X_train.shape
